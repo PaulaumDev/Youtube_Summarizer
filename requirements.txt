@@ -1,0 +1,12 @@
+attrs==25.3.0
+cffi==1.17.1
+cryptography==46.0.1
+filelock==3.19.1
+lightdm-gtk-greeter-settings==1.2.3
+meson==1.9.1
+packaging==25.0
+pycairo==1.28.0
+pycparser==2.23
+PyGObject==3.54.3
+tqdm==4.67.1
+wheel==0.45.1
