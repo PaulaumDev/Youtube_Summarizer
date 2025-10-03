@@ -1,0 +1,2 @@
+Instalar dependências:
+    pip install openai pytube youtube-transcript-api
