@@ -1,2 +1,7 @@
 Instalar dependências:
-    pip install openai pytube youtube-transcript-api
+    1. pip install openai pytube youtube-transcript-api
+Configurar API:
+    1. Acesse platform.openai.com
+    2. Crie uma conta
+    3. Vá em configurações, API Keys e gere uma chave nova
+    4. Recarregue os créditos na aba Billing (em dólares)
