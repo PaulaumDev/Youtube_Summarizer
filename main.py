@@ -1,46 +1,34 @@
-from youtube_transcript_api import YouTubeTranscriptApi 
-from pytube import YouTube
-from openai import OpenAI
-import time
-import os
+import threading
+from system import NewSystem
+from ia import NewIA
+from video import NewTranscriptVideo
 
-def clear_console():
-    os.system('cls' if os.name == 'nt' else 'clear')
-
-clear_console()
-
-with open('api.txt', 'r') as api:
-    key = api.read()
-
-ia = OpenAI(api_key=key)
-yt_transcript = YouTubeTranscriptApi()
-
-# Passo 1: Receber o link do vídeo
-url = input("Insira o link do vídeo a ser resumido (não pode ser link encurtado ou de mobile, somente vídeos com legendas disponíveis): ")
-if not "https://www.youtube.com" in url:
-    print("Esse link não é valido. Digite um link válido")
-    time.sleep(1)
-    clear_console()
-
-else: 
-    # Passo 2: Transcrever o vídeo
-    print("Transcrevendo o vídeo da URL...")
-    time.sleep(1)
-    transcript = ""
-    video_id = YouTube(url).video_id
-    video_fetch = yt_transcript.fetch(video_id=video_id, languages=["pt", "en", "es", "de", "fr"])
-    for snippet in video_fetch.snippets:
-        transcript+=f"{snippet.text}\n"
-    print("Trancrição feita! Iniciando resumo...")
-    time.sleep(1.5)
-    clear_console()
-
-    # Passo 3: mandar a transcrição do vídeo para o chatgpt resumir
-    request = ia.responses.create(
-        model="gpt-5-nano",
-        input=f"Você poderia me fazer um resumo detalhado dessa transcrição de um vídeo do youtube?\n{transcript}"
-    )
-    response = request.output_text
+if __name__ == "__main__":
+    system = NewSystem()
+    ia = NewIA(system=system)
+    transcriptorVideo = NewTranscriptVideo()
     
-    # Passo 4: retornar o resumo
+    stop_event = threading.Event()
+    spinner_thread = threading.Thread(target=system.carregamento, args=(stop_event,))
+
+    system.clear_console()
+    
+    print("--- Digite a url ---")
+    url = system.input_link()
+    
+    system.clear_console()
+    
+    spinner_thread.start()
+    
+    transcript = transcriptorVideo.transcript(url)
+    
+    response = ia.send_message(transcript)
+    
+    stop_event.set()
+    spinner_thread.join()
+    
+    system.clear_console()
+    
+    print("--- Resultado Final ---")
+    
     print(response)
