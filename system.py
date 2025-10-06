@@ -27,17 +27,19 @@ class _System:
     def input_link(self)->str:
         print("Insira o link do vídeo a ser resumido (não pode ser link encurtado ou de mobile, \nsomente vídeos com legendas disponíveis): ", end="\0")
         url = input()
-        
-        if not "https://www.youtube.com" in url:
-            print("link enviado é inválido!")
-            return ""
-        
         return url
 
-    def carregamento(self, stop_event: threading.Event)->None:
+    def carregamento_transcricao(self, stop_event: threading.Event)->None:
         spinner = itertools.cycle(["|", "/", "-", "\\"])
         while not stop_event.is_set():
-            print(f"\rProcessando {next(spinner)}", end="", flush=True)
+            print(f"\rProcessando transcrição {next(spinner)}", end="", flush=True)
+            time.sleep(0.1)
+        print("\r", end="")
+    
+    def carregamento_resposta(self, stop_event: threading.Event)->None:
+        spinner = itertools.cycle(["|", "/", "-", "\\"])
+        while not stop_event.is_set():
+            print(f"\rProcessando resposta {next(spinner)}", end="", flush=True)
             time.sleep(0.1)
         print("\r", end="")
 

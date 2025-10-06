@@ -16,7 +16,7 @@ class _Video:
     lru_cache(maxsize=256)
     def transcript(self, url: str)->str:
         if not "https://youtube.com" in url:
-            raise ValueError("URL inválida. Certifique-se de que é um link do YouTube.")
+            return ""
         else:
             try:
                 try:
