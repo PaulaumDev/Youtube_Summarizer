@@ -29,6 +29,8 @@ if __name__ == "__main__":
     
     system.clear_console()
     
-    print("--- Resultado Final ---")
-    
-    print(response)
+    for event in response:
+        if event.type == "response.output_text.delta":
+            print(event.delta, end="", flush=True)
+        elif event.type == "response.completed":
+            print("\n--- Fim da resposta ---")

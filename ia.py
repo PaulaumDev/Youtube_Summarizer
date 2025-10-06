@@ -34,7 +34,10 @@ class _IA:
         try:
             request_stream = self.ia.responses.create(
                 model="gpt-5-nano",
-                input=f"Você é um assistente conciso, direto e simples, faça um resumo detalhado sobre o texto abaixo sem fazer perguntas após atender suas competências. Que são apenas resumir em PARÁGRAFOS uma trancrição de um vídeo que será passada agora:\n{message}",
+                input=[{
+                    "role": "user",
+                    "content": f"Você é um assistente conciso, direto e simples, faça um resumo detalhado sobre o texto abaixo sem fazer perguntas após atender suas competências. Que são apenas resumir em PARÁGRAFOS uma trancrição de um vídeo que será passada agora:\n{message}"
+                }],
                 stream=True
             )
 
