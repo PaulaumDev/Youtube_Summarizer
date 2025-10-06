@@ -29,17 +29,10 @@ class _System:
         url = input()
         return url
 
-    def carregamento_transcricao(self, stop_event: threading.Event)->None:
+    def carregamento(self, stop_event: threading.Event)->None:
         spinner = itertools.cycle(["|", "/", "-", "\\"])
         while not stop_event.is_set():
             print(f"\rProcessando transcrição {next(spinner)}", end="", flush=True)
-            time.sleep(0.1)
-        print("\r", end="")
-    
-    def carregamento_resposta(self, stop_event: threading.Event)->None:
-        spinner = itertools.cycle(["|", "/", "-", "\\"])
-        while not stop_event.is_set():
-            print(f"\rProcessando resposta {next(spinner)}", end="", flush=True)
             time.sleep(0.1)
         print("\r", end="")
 

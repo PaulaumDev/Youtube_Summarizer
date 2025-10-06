@@ -9,7 +9,7 @@ if __name__ == "__main__":
     transcriptorVideo = NewTranscriptVideo()
     
     stop_event = threading.Event()
-    spinner_thread = threading.Thread(target=system.carregamento_transcricao, args=(stop_event,))
+    spinner_thread = threading.Thread(target=system.carregamento, args=(stop_event,))
 
     system.clear_console()
     
@@ -22,16 +22,17 @@ if __name__ == "__main__":
     transcript = transcriptorVideo.transcript(url)
     stop_event.set()
     spinner_thread.join()
+    system.clear_console()
 
     if transcript != "":
-        spinner_thread = threading.Thread(target=system.carregamento_resposta, args=(stop_event,))
-        spinner_thread.start()
+        print("Transcrição obtida com sucesso!\n")
+        system.delay(0.5)
+        print("Processando sumarização...")
 
         response = ia.send_message(transcript)
-        
-        stop_event.set()
-        spinner_thread.join()
-        
+
+        print("Concluído!\n")
+        system.delay(0.5)
         system.clear_console()
         
         for event in response:
