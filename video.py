@@ -15,7 +15,7 @@ class _Video:
     
     lru_cache(maxsize=256)
     def transcript(self, url: str)->str:
-        if not "https://youtube.com" in url:
+        if not "https://www.youtube.com" in url:
             return ""
         else:
             try:
