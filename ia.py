@@ -32,12 +32,13 @@ class _IA:
     lru_cache(maxsize=64)
     def send_message(self, message: str)->str:
         try:
-            request = self.ia.responses.create(
+            request_stream = self.ia.responses.create(
                 model="gpt-5-nano",
-                input=f"faça um resumo detalhado sobre o texto abaixo\n{message}"
+                input=f"Você é um assistente conciso, direto e simples, faça um resumo detalhado sobre o texto abaixo sem fazer perguntas após atender suas competências. Que são apenas resumir em PARÁGRAFOS uma trancrição de um vídeo que será passada agora:\n{message}",
+                stream=True
             )
 
-            return request.output_text
+            return request_stream
         
         except RateLimitError:
             return "❌ Erro: limite de requisições atingido. Tente novamente mais tarde."
